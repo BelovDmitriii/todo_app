@@ -8,3 +8,7 @@ def read_tasks(filename = 'tasks.txt'):
             return [line.strip() for line in file.readlines()]
     except FileNotFoundError:
         return []
+def write_tasks(tasks, filename = 'tasks.txt'):
+    with open(filename, 'w', encoding='utf-8') as file:
+        for task in tasks:
+            file.write(task + '\n')

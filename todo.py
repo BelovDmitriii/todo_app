@@ -1,4 +1,4 @@
-from tasks import add_task, read_tasks
+from tasks import add_task, read_tasks, write_tasks
 import sys
 
 def main():
@@ -26,6 +26,19 @@ def main():
             print("Текущие задачи: ")
             for i, task in enumerate(tasks, start = 1):
                 print(f"{i}. {task}")
+
+    elif command == 'delete':
+        if len(sys.argv) < 3 or not sys.argv[2].isdigit():
+            print("Укажите номер задачи для удаления. Например: delete 2")
+        else:
+            task_number = int(sys.argv[2])
+            tasks = read_tasks()
+            if 1 <= task_number <= len(tasks):
+                removed = tasks.pop(task_number - 1)
+                write_tasks(tasks)
+                print(f"Задача удалена: {removed}")
+            else:
+                print("Некорректный номер задачи.")
 
     else:
         print(f"Неизвестная команда: {command}")
