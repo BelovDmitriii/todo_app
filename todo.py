@@ -28,17 +28,36 @@ def main():
                 print(f"{i}. {task}")
 
     elif command == 'delete':
-        if len(sys.argv) < 3 or not sys.argv[2].isdigit():
-            print("Укажите номер задачи для удаления. Например: delete 2")
+        if len(sys.argv) < 3:
+            print("Укажите хотя бы один номер задачи для удаления. Например: delete 2 4")
         else:
-            task_number = int(sys.argv[2])
-            tasks = read_tasks()
-            if 1 <= task_number <= len(tasks):
-                removed = tasks.pop(task_number - 1)
-                write_tasks(tasks)
-                print(f"Задача удалена: {removed}")
+            task_numbers = sys.argv[2:]
+
+            if not all(num.isdigit() for num in task_numbers):
+                print("Все номера задач должны быть числами. Например: delete 1 3 5")
             else:
-                print("Некорректный номер задачи.")
+                tasks = read_tasks()
+
+                if not tasks:
+                    print("Список задач пуст, нечего удалять.")
+                    return
+                indexes = sorted(set(int(n) - 1 for n in task_numbers), reverse=True)
+
+                removed_tasks = []
+
+                for idx in indexes:
+                    if 0 <= idx < len(tasks):
+                        removed_tasks.append(tasks.pop(idx))
+                    else:
+                        print(f"Нет задачи с номером: {idx + 1}")
+                        return
+
+                    write_tasks(tasks)
+
+                    if read_tasks:
+                        print("Удалены задачи:")
+                        for task in removed_tasks:
+                            print(f" - {task}")
 
     else:
         print(f"Неизвестная команда: {command}")
