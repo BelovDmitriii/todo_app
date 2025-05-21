@@ -1,10 +1,9 @@
+from tasks import add_task, read_tasks
 import sys
 
-# print("Аргументы командной строки:", sys.argv)
-
-from tasks import add_task, read_tasks
-
 def main():
+    # print("Аргументы командной строки:", sys.argv)
+
     if len(sys.argv) < 2:
         print("Использование: python todo.py add 'текст задачи'")
         return
@@ -18,6 +17,16 @@ def main():
             task_text = ' '.join(sys.argv[2:])
             add_task(task_text)
             print(f"Задача добавлена: {task_text}")
+
+    elif command == 'list':
+        tasks = read_tasks()
+        if not tasks:
+            print("Список задач пуст.")
+        else:
+            print("Текущие задачи: ")
+            for i, task in enumerate(tasks, start = 1):
+                print(f"{i}. {task}")
+
     else:
         print(f"Неизвестная команда: {command}")
 
