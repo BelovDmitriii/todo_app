@@ -50,14 +50,13 @@ def main():
                         removed_tasks.append(tasks.pop(idx))
                     else:
                         print(f"Нет задачи с номером: {idx + 1}")
-                        return
 
-                    write_tasks(tasks)
+                write_tasks(tasks)
 
-                    if read_tasks:
-                        print("Удалены задачи:")
-                        for task in removed_tasks:
-                            print(f" - {task}")
+                if removed_tasks:
+                    print("Удалены задачи:")
+                    for task in removed_tasks:
+                        print(f" - {task}")
 
     else:
         print(f"Неизвестная команда: {command}")
