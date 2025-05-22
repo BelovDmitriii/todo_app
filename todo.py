@@ -1,4 +1,4 @@
-from tasks import add_task, read_tasks, write_tasks, edit_task
+from tasks import add_task, read_tasks, write_tasks, edit_task, toggle_task_status
 import sys
 
 def main():
@@ -71,6 +71,43 @@ def main():
                 print(f"Задача {index + 1} изменена на: {new_text}")
             else:
                 print("Некорректный номер задачи")
+
+    elif command == 'complete':
+
+        if len(sys.argv) < 3 or not sys.argv[2].isdigit():
+            print("Укажите номер задачи для завершения. Например: complete 2")
+        else:
+            index = int(sys.argv[2]) - 1
+
+            if toggle_task_status(index, complete=True):
+                print(f"Задача №{index + 1} отмечена как выполненная.")
+            else:
+                print("Некорректный номер задачи.")
+
+    elif command == 'incomplete':
+        if len(sys.argv) < 3:
+            print("Укажите номер задачи.")
+            return
+        try:
+            index = int(sys.argv[2]) - 1
+        except ValueError:
+            print("Введите корректный номер.")
+            return
+
+        if toggle_task_status(index, complete=False):
+            print(f"Задача №{index + 1} отмечена как невыполненная.")
+        else:
+            print("Некорректный номер задачи.")
+
+        # if len(sys.argv) < 3 or not sys.argv[2].isdigit():
+        #     print("Укажите номер задачи для снятия отметки. Например: incomplete 2")
+        # else:
+        #     index = int(sys.argv[2]) - 1
+
+        #     if toggle_task_status(index, complete=False):
+        #         print(f"Задача №{index + 1} отмечена как невыполненная.")
+        #     else:
+        #         print("Некорректный номер задачи.")
 
     else:
         print(f"Неизвестная команда: {command}")
