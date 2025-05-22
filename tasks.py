@@ -72,3 +72,17 @@ def toggle_task_status(index, complete = True):
                 return 'already_undone'
 
     return 'invalid_index'
+
+#сортировка задач на выполненные/ невыполненные
+def sort_tasks():
+    tasks = read_tasks()
+
+    completed = [task for task in tasks if task.strip().startswith('[x] ')]
+    incomplete = [task for task in tasks if task.strip().startswith('[ ] ')]
+
+    other = [task for task in tasks if task not in completed and task not in incomplete]
+
+    sorted_tasks = incomplete + completed + other
+    write_tasks(sorted_tasks)
+
+    print("Задачи отсортированы: невыполненные сначала, выполненные — после.")

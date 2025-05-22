@@ -1,4 +1,4 @@
-from tasks import add_task, read_tasks, write_tasks, edit_task, toggle_task_status, list_tasks
+from tasks import add_task, read_tasks, write_tasks, edit_task, toggle_task_status, list_tasks, sort_tasks
 import sys
 
 def main():
@@ -102,6 +102,9 @@ def main():
             print("Задача уже отмечена как невыполненная.")
         elif result == 'invalid_index':
             print("Некорректный номер задачи.")
+
+    elif command == 'sort':
+        sort_tasks()
 
     else:
         print(f"Неизвестная команда: {command}")
