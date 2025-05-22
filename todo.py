@@ -1,4 +1,4 @@
-from tasks import add_task, read_tasks, write_tasks, edit_task, toggle_task_status
+from tasks import add_task, read_tasks, write_tasks, edit_task, toggle_task_status, list_tasks
 import sys
 
 def main():
@@ -19,13 +19,7 @@ def main():
             print(f"Задача добавлена: {task_text}")
 
     elif command == 'list':
-        tasks = read_tasks()
-        if not tasks:
-            print("Список задач пуст.")
-        else:
-            print("Текущие задачи: ")
-            for i, task in enumerate(tasks, start = 1):
-                print(f"{i}. {task}")
+        list_tasks()
 
     elif command == 'delete':
         if len(sys.argv) < 3:

@@ -1,3 +1,21 @@
+# отображение задач в консоли
+def list_tasks():
+    tasks = read_tasks()
+    if not tasks:
+        print("Список задач пуст.")
+        return
+
+    print("Текущие задачи:")
+    for i, task in enumerate(tasks):
+        task = task.strip()
+        if task.startswith('[x]'):
+            display_task = task.replace('[x]', '✅', 1)
+        elif task.startswith('[ ]'):
+            display_task = task.replace('[ ]', '🔲', 1 )
+        else:
+            display_task = task
+        print(f"{i + 1}. {display_task.strip()}")
+
 #добавление задачи
 def add_task(task_text, filename = 'tasks.txt'):
     with open(filename, 'a', encoding='utf-8') as file:
