@@ -40,17 +40,17 @@ def toggle_task_status(index, complete = True):
         if complete:
             if current.startswith('[ ]'):
                 tasks[index] = current.replace('[ ]', '[x]', 1) + '\n'
-            else:
-                print("Задача уже отмечена как выполненная.")
-                return False
+                write_tasks(tasks)
+                return 'marked_done'
+            elif current.startswith('[x]'):
+                return 'already_done'
+
         else:
             if current.startswith('[x]'):
                 tasks[index] = current.replace('[x]', '[ ]', 1) + '\n'
-            else:
-                print("Задача уже отмечена как невыполненная.")
-                return False
+                write_tasks(tasks)
+                return 'marked_undone'
+            elif current.startswith('[ ]'):
+                return 'already_undone'
 
-        write_tasks(tasks)
-        return True
-
-    return False
+    return 'invalid_index'

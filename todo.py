@@ -74,15 +74,22 @@ def main():
 
     elif command == 'complete':
 
-        if len(sys.argv) < 3 or not sys.argv[2].isdigit():
-            print("Укажите номер задачи для завершения. Например: complete 2")
-        else:
+        if len(sys.argv) < 3:
+            print("Укажите номер задачи.")
+            return
+        try:
             index = int(sys.argv[2]) - 1
+        except ValueError:
+            print("Введите корректный номер.")
+            return
+        result = toggle_task_status(index, complete=True)
 
-            if toggle_task_status(index, complete=True):
-                print(f"Задача №{index + 1} отмечена как выполненная.")
-            else:
-                print("Некорректный номер задачи.")
+        if result == 'marked_done':
+            print(f"Задача №{index + 1} отмечена как выполненная.")
+        elif result == 'already_done':
+            print("Задача уже отмечена как выполненная.")
+        elif result == 'invalid_index':
+            print("Некорректный номер задачи.")
 
     elif command == 'incomplete':
         if len(sys.argv) < 3:
@@ -93,21 +100,14 @@ def main():
         except ValueError:
             print("Введите корректный номер.")
             return
+        result = toggle_task_status(index, complete=False)
 
-        if toggle_task_status(index, complete=False):
+        if result == 'marked_undone':
             print(f"Задача №{index + 1} отмечена как невыполненная.")
-        else:
+        elif result == 'already_undone':
+            print("Задача уже отмечена как невыполненная.")
+        elif result == 'invalid_index':
             print("Некорректный номер задачи.")
-
-        # if len(sys.argv) < 3 or not sys.argv[2].isdigit():
-        #     print("Укажите номер задачи для снятия отметки. Например: incomplete 2")
-        # else:
-        #     index = int(sys.argv[2]) - 1
-
-        #     if toggle_task_status(index, complete=False):
-        #         print(f"Задача №{index + 1} отмечена как невыполненная.")
-        #     else:
-        #         print("Некорректный номер задачи.")
 
     else:
         print(f"Неизвестная команда: {command}")
