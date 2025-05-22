@@ -1,3 +1,11 @@
+def get_status_symbol(task):
+    if task.startswith('[x]'):
+        return '✅'
+    elif task.startswith('[ ]'):
+        return '🔲'
+    else:
+        return ''
+
 # отображение задач в консоли
 def list_tasks():
     tasks = read_tasks()
@@ -6,15 +14,10 @@ def list_tasks():
         return
 
     print("Текущие задачи:")
-    for i, task in enumerate(tasks):
-        task = task.strip()
-        if task.startswith('[x]'):
-            display_task = task.replace('[x]', '✅', 1)
-        elif task.startswith('[ ]'):
-            display_task = task.replace('[ ]', '🔲', 1 )
-        else:
-            display_task = task
-        print(f"{i + 1}. {display_task.strip()}")
+    for i, task in enumerate(tasks, start=1):
+        status = get_status_symbol(task)
+        text = task[4:].strip()
+        print(f"{i}. {status} {text}")
 
 #добавление задачи
 def add_task(task_text, filename = 'tasks.txt'):
