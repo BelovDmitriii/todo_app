@@ -1,4 +1,4 @@
-from tasks import add_task, read_tasks, write_tasks
+from tasks import add_task, read_tasks, write_tasks, edit_task
 import sys
 
 def main():
@@ -57,6 +57,20 @@ def main():
                     print("Удалены задачи:")
                     for task in removed_tasks:
                         print(f" - {task}")
+
+    elif command == 'edit':
+        if len(sys.argv) < 4 or not sys.argv[2].isdigit():
+            print("Использование: python todo.py edit <номер> \"новый текст задачи\"")
+        else:
+            index = int(sys.argv[2]) - 1
+            new_text = ' '.join(sys.argv[3:])
+
+            tasks = read_tasks()
+
+            if edit_task(index, new_text):
+                print(f"Задача {index + 1} изменена на: {new_text}")
+            else:
+                print("Некорректный номер задачи")
 
     else:
         print(f"Неизвестная команда: {command}")
