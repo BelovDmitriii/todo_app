@@ -1,4 +1,4 @@
-from tasks import add_task, read_tasks, write_tasks, edit_task, toggle_task_status, list_tasks, sort_tasks
+from tasks import add_task, read_tasks, write_tasks, edit_task, toggle_task_status, list_tasks, sort_tasks, search_tasks
 import sys
 
 def main():
@@ -105,6 +105,22 @@ def main():
 
     elif command == 'sort':
         sort_tasks()
+
+    elif command == 'search':
+
+        if len(sys.argv) < 3:
+            print("Укажите слово, которое надо найти в задаче.")
+            return
+
+        query = ' '.join(sys.argv[2:])
+        found = search_tasks(query)
+
+        if found:
+            print(f"Результат поиска по запросу '{query}': ")
+            for i, task in enumerate(found, 1):
+                print(f"{i}. {task.strip()}")
+        else:
+            print(f"По запросу '{query}' ничего не найдено.")
 
     else:
         print(f"Неизвестная команда: {command}")

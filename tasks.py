@@ -89,3 +89,12 @@ def sort_tasks():
     write_tasks(sorted_tasks)
 
     print("Задачи отсортированы: невыполненные сначала, выполненные — после.")
+
+#Поиск задач по ключевому слову
+def search_tasks(query):
+    tasks = read_tasks()
+    result = []
+    for task in tasks:
+        if query.lower() in task[3:].lower():
+            result.append(task.strip())
+    return result
