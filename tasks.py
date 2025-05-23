@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def get_status_symbol(task):
     if task.startswith('[x]'):
         return '✅'
@@ -103,5 +105,8 @@ def search_tasks(query):
 def export_tasks(filename):
     tasks = read_tasks()
     with open(filename, "w", encoding="utf-8") as file:
+        current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"Экспорт задач - {current_date}\n")
+        file.write("=" * 40 + "\n")
         for task in tasks:
             file.write(task.strip() + '\n')
