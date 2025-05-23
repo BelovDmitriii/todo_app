@@ -110,3 +110,22 @@ def export_tasks(filename):
         file.write("=" * 40 + "\n")
         for task in tasks:
             file.write(task.strip() + '\n')
+
+# Импорт задач из другого файла и добавление в текущий
+def import_tasks(filename):
+    current_tasks = read_tasks()
+
+    try:
+        with open(filename, 'r', encoding="utf-8") as file:
+            new_tasks = file.readlines()
+    except FileNotFoundError:
+        print(f"Файл '{filename}' не найден.")
+        return
+    clean_new_tasks = [task.strip() for task in new_tasks if task.strip()]
+    formatted_new_tasks = [f"[ ] {task}\n" for task in clean_new_tasks]
+
+    update_tasks = current_tasks + formatted_new_tasks
+
+    write_tasks(update_tasks)
+
+    print(f"Добавлено {len(formatted_new_tasks)} задач(и) из файла '{filename}'")
