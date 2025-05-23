@@ -1,4 +1,4 @@
-from tasks import add_task, read_tasks, write_tasks, edit_task, toggle_task_status, list_tasks, sort_tasks, search_tasks
+from tasks import add_task, read_tasks, write_tasks, edit_task, toggle_task_status, list_tasks, sort_tasks, search_tasks, export_tasks
 import sys
 
 def main():
@@ -121,6 +121,20 @@ def main():
                 print(f"{i}. {task.strip()}")
         else:
             print(f"По запросу '{query}' ничего не найдено.")
+
+    elif command == 'export':
+
+        if len(sys.argv) < 3:
+            print("Необходимо указать имя файла.")
+            return
+
+        filename = ' '.join(sys.argv[2:])
+
+        if not filename.endswith('.txt'):
+            filename += '.txt'
+
+        export_tasks(filename)
+        print(f"задачи экспортированы в файл '{filename}'")
 
     else:
         print(f"Неизвестная команда: {command}")

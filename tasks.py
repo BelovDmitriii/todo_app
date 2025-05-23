@@ -98,3 +98,10 @@ def search_tasks(query):
         if query.lower() in task[3:].lower():
             result.append(task.strip())
     return result
+
+# Экспорт задач в .txt файл под выбранным именем
+def export_tasks(filename):
+    tasks = read_tasks()
+    with open(filename, "w", encoding="utf-8") as file:
+        for task in tasks:
+            file.write(task.strip() + '\n')
