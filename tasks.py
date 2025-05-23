@@ -46,7 +46,15 @@ def write_tasks(tasks, filename = 'tasks.txt'):
 def edit_task(index, new_text):
     tasks = read_tasks()
     if 0 <= index < len(tasks):
-        tasks[index] = new_text
+        current = tasks[index].strip()
+
+        if current.startswith('[x]'):
+            status = '[x]'
+        elif current.startswith('[ ]'):
+            status = '[ ]'
+        else:
+            status = ''
+        tasks[index] = f"{status} {new_text}\n"
         write_tasks(tasks)
         return True
     else:
