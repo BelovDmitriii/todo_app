@@ -1,0 +1,27 @@
+[
+    {
+        "title": "выучить python",
+        "priority": 2,
+        "done": false
+    },
+    {
+        "title": "покормить кота еще раз",
+        "priority": 1,
+        "done": false
+    },
+    {
+        "title": "прокачать todo проект",
+        "priority": 2,
+        "done": false
+    },
+    {
+        "title": "убраться дома",
+        "priority": 3,
+        "done": false
+    },
+    {
+        "title": "решить 20 задач на Codewars 1",
+        "priority": 2,
+        "done": true
+    }
+]

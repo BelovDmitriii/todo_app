@@ -1,4 +1,4 @@
-from tasks import add_task, read_tasks, write_tasks, edit_task, toggle_task_status, list_tasks, sort_tasks, search_tasks, export_tasks, import_tasks
+from tasks import add_task, load_tasks, save_tasks, edit_task, toggle_task_status, list_tasks, sort_tasks, search_tasks, export_tasks, import_tasks
 import sys
 
 def main():
@@ -40,7 +40,7 @@ def main():
             if not all(num.isdigit() for num in task_numbers):
                 print("Все номера задач должны быть числами. Например: delete 1 3 5")
             else:
-                tasks = read_tasks()
+                tasks = load_tasks()
 
                 if not tasks:
                     print("Список задач пуст, нечего удалять.")
@@ -55,7 +55,7 @@ def main():
                     else:
                         print(f"Нет задачи с номером: {idx + 1}")
 
-                write_tasks(tasks)
+                save_tasks(tasks)
 
                 if removed_tasks:
                     print("Удалены задачи:")
@@ -69,7 +69,7 @@ def main():
             index = int(sys.argv[2]) - 1
             new_text = ' '.join(sys.argv[3:])
 
-            tasks = read_tasks()
+            tasks = load_tasks()
 
             if edit_task(index, new_text):
                 print(f"Задача {index + 1} изменена на: {new_text}")
