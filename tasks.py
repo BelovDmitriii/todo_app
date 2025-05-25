@@ -101,9 +101,8 @@ def export_tasks(filename):
             priority_icon = get_priority_icon(task["priority"])
             file.write(f"{status} {priority_icon} {task["title"]}\n")
 
-# Импорт задач из другого файла и добавление в текущий
+# Перенос задач из другого файла и добавление в текущий
 def import_tasks(filename):
-
     try:
         with open(filename, 'r', encoding="utf-8") as file:
             lines = file.readlines()

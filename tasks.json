@@ -23,5 +23,20 @@
         "title": "решить 20 задач на Codewars 1",
         "priority": 2,
         "done": true
+    },
+    {
+        "title": "купить новую книгу",
+        "priority": 2,
+        "done": false
+    },
+    {
+        "title": "заправить машину",
+        "priority": 2,
+        "done": false
+    },
+    {
+        "title": "сходить на тренировку",
+        "priority": 2,
+        "done": true
     }
 ]
