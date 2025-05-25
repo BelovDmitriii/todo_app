@@ -5,16 +5,6 @@
         "done": false
     },
     {
-        "title": "покормить кота еще раз",
-        "priority": 1,
-        "done": false
-    },
-    {
-        "title": "прокачать todo проект",
-        "priority": 2,
-        "done": false
-    },
-    {
         "title": "убраться дома",
         "priority": 3,
         "done": false
@@ -38,5 +28,10 @@
         "title": "сходить на тренировку",
         "priority": 2,
         "done": true
+    },
+    {
+        "title": "прокачать todo проект",
+        "priority": 1,
+        "done": false
     }
 ]

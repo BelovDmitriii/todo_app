@@ -1,4 +1,4 @@
-from tasks import add_task, load_tasks, save_tasks, edit_task, toggle_task_status, list_tasks, sort_tasks, search_tasks, export_tasks, import_tasks
+from tasks import add_task, load_tasks, delete_task, edit_task, toggle_task_status, list_tasks, sort_tasks, search_tasks, export_tasks, import_tasks, get_priority_icon
 import sys
 
 def main():
@@ -32,35 +32,30 @@ def main():
         list_tasks()
 
     elif command == 'delete':
-        if len(sys.argv) < 3:
-            print("Укажите хотя бы один номер задачи для удаления. Например: delete 2 4")
+        tasks = load_tasks()
+
+        if not tasks:
+            print("Список задач пуст, нечего удалять.")
+            return
+        print("Список задач:")
+
+        for i, task in enumerate(tasks, 1):
+            status = "✅" if task["done"] else "🔲"
+            icon = get_priority_icon(str(task["priority"]))
+            print(f"{i}. {status} {icon} {task['title']}")
+
+        try:
+            index = int(input("Введите номер задачи для удаления: ")) - 1
+        except ValueError:
+            print("Ошибка: введите число.")
+            return
+
+        removed = delete_task(index)
+
+        if removed:
+            print(f"Задача \"{removed['title']}\" удалена.")
         else:
-            task_numbers = sys.argv[2:]
-
-            if not all(num.isdigit() for num in task_numbers):
-                print("Все номера задач должны быть числами. Например: delete 1 3 5")
-            else:
-                tasks = load_tasks()
-
-                if not tasks:
-                    print("Список задач пуст, нечего удалять.")
-                    return
-                indexes = sorted(set(int(n) - 1 for n in task_numbers), reverse=True)
-
-                removed_tasks = []
-
-                for idx in indexes:
-                    if 0 <= idx < len(tasks):
-                        removed_tasks.append(tasks.pop(idx))
-                    else:
-                        print(f"Нет задачи с номером: {idx + 1}")
-
-                save_tasks(tasks)
-
-                if removed_tasks:
-                    print("Удалены задачи:")
-                    for task in removed_tasks:
-                        print(f" - {task}")
+            print("Ошибка: некорректный номер задачи.")
 
     elif command == 'edit':
         if len(sys.argv) < 4 or not sys.argv[2].isdigit():

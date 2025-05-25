@@ -50,6 +50,16 @@ def add_task(title, priority=2):
     tasks.append(task)
     save_tasks(tasks)
 
+# Удаление задачи
+def delete_task(index):
+    tasks = load_tasks()
+    if 0 <= index < len(tasks):
+        removed = tasks.pop(index)
+        save_tasks(tasks)
+        return removed
+    else:
+        return None
+
 #редактирование задачи в файле
 def edit_task(index, new_title):
     tasks = load_tasks()
