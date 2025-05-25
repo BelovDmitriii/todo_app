@@ -13,10 +13,20 @@ def main():
     if command == 'add':
         if len(sys.argv) < 3:
             print("Ошибка: не указан текст задачи.")
-        else:
+            return
+
+        task_text = ' '.join(sys.argv[2:-1])
+
+        try:
+            priority = int(sys.argv[-1])
+            if priority not in [1, 2, 3]:
+                raise ValueError
+        except ValueError:
             task_text = ' '.join(sys.argv[2:])
-            add_task(task_text)
-            print(f"Задача добавлена: {task_text}")
+            priority = 2
+
+        add_task(task_text, priority)
+        print(f"Задача добавлена с приоритетом {priority}: {task_text}")
 
     elif command == 'list':
         list_tasks()

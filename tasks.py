@@ -1,12 +1,13 @@
 from datetime import datetime
+import re
 
-def get_status_symbol(task):
-    if task.startswith('[x]'):
-        return '✅'
-    elif task.startswith('[ ]'):
-        return '🔲'
-    else:
-        return ''
+def get_priority_icon(priority):
+    mapping = {
+        "1": "🔥",
+        "2": "⚠️",
+        "3": "📝"
+    }
+    return mapping.get(priority, "⬜")
 
 # отображение задач в консоли
 def list_tasks():
@@ -16,15 +17,28 @@ def list_tasks():
         return
 
     print("Текущие задачи:")
-    for i, task in enumerate(tasks, start=1):
-        status = get_status_symbol(task)
-        text = task[4:].strip()
-        print(f"{i}. {status} {text}")
+    for i, task in enumerate(tasks, 1):
+        status = "[x]" if "[x]" in task else "[ ]"
+        status_icon = "✅" if status == "[x]" else "🔲"
+
+        # Ищем приоритет вида [1], [2], [3]
+        match = re.search(r"\[(\d)\]", task)
+        if match:
+            priority_number = match.group(1)
+        else:
+            priority_number = "2"  # значение по умолчанию
+
+        priority_icon = get_priority_icon(priority_number)
+
+        # Убираем статус и приоритет из текста задачи
+        clean_text = re.sub(r"\[.\]\s*\[.\]", "", task).strip()
+
+        print(f"{i}. {status_icon} {priority_icon}  {clean_text}")
 
 #добавление задачи
-def add_task(task_text, filename = 'tasks.txt'):
+def add_task(task_text, priority=2, filename = 'tasks.txt'):
     with open(filename, 'a', encoding='utf-8') as file:
-        file.write(f"[ ] {task_text}\n")
+        file.write(f"[ ] [{priority}] {task_text}\n")
 
 #чтение всех задач из файла
 def read_tasks(filename = 'tasks.txt'):
@@ -48,13 +62,15 @@ def edit_task(index, new_text):
     if 0 <= index < len(tasks):
         current = tasks[index].strip()
 
-        if current.startswith('[x]'):
-            status = '[x]'
-        elif current.startswith('[ ]'):
-            status = '[ ]'
+        status = "[x]" if "[x]" in current else "[ ]"
+
+        match = re.search(r"\[(\d)\]", current)
+        if match:
+            priority = f"[{match.group(1)}]"
         else:
-            status = ''
-        tasks[index] = f"{status} {new_text}\n"
+            priority = "[2]"
+
+        tasks[index] = f"{status} {priority} {new_text}\n"
         write_tasks(tasks)
         return True
     else:
