@@ -51,14 +51,31 @@ def add_task(title, priority=2):
     save_tasks(tasks)
 
 # Удаление задачи
-def delete_task(index):
+def delete_task():
     tasks = load_tasks()
+
+    if not tasks:
+        print("Список задач пуст.")
+        return
+
+    print("Список задач:")
+    for i, task in enumerate(tasks, 1):
+        status = "✅" if task["done"] else "🔲"
+        icon = get_priority_icon(str(task["priority"]))
+        print(f"{i}. {status} {icon} {task['title']}")
+
+    try:
+        index = int(input("Введите номер задачи для удаления: ")) - 1
+    except ValueError:
+        print("Ошибка: введите число.")
+        return
+
     if 0 <= index < len(tasks):
         removed = tasks.pop(index)
         save_tasks(tasks)
-        return removed
+        print(f"Задача \"{removed['title']}\" удалена.")
     else:
-        return None
+        print("Ошибка: некорректный номер задачи.")
 
 #редактирование задачи в файле
 def edit_task(index, new_title):

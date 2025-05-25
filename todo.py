@@ -1,4 +1,4 @@
-from tasks import add_task, load_tasks, delete_task, edit_task, toggle_task_status, list_tasks, sort_tasks, search_tasks, export_tasks, import_tasks, get_priority_icon
+from tasks import add_task, load_tasks, delete_task, edit_task, toggle_task_status, list_tasks, sort_tasks, search_tasks, export_tasks, import_tasks
 import sys
 
 def main():
@@ -32,30 +32,7 @@ def main():
         list_tasks()
 
     elif command == 'delete':
-        tasks = load_tasks()
-
-        if not tasks:
-            print("Список задач пуст, нечего удалять.")
-            return
-        print("Список задач:")
-
-        for i, task in enumerate(tasks, 1):
-            status = "✅" if task["done"] else "🔲"
-            icon = get_priority_icon(str(task["priority"]))
-            print(f"{i}. {status} {icon} {task['title']}")
-
-        try:
-            index = int(input("Введите номер задачи для удаления: ")) - 1
-        except ValueError:
-            print("Ошибка: введите число.")
-            return
-
-        removed = delete_task(index)
-
-        if removed:
-            print(f"Задача \"{removed['title']}\" удалена.")
-        else:
-            print("Ошибка: некорректный номер задачи.")
+        delete_task()
 
     elif command == 'edit':
         if len(sys.argv) < 4 or not sys.argv[2].isdigit():

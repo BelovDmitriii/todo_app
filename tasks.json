@@ -5,19 +5,9 @@
         "done": false
     },
     {
-        "title": "убраться дома",
-        "priority": 3,
-        "done": false
-    },
-    {
         "title": "решить 20 задач на Codewars 1",
         "priority": 2,
         "done": true
-    },
-    {
-        "title": "купить новую книгу",
-        "priority": 2,
-        "done": false
     },
     {
         "title": "заправить машину",
@@ -32,6 +22,11 @@
     {
         "title": "прокачать todo проект",
         "priority": 1,
+        "done": false
+    },
+    {
+        "title": "убраться дома",
+        "priority": 2,
         "done": false
     }
 ]
