@@ -30,7 +30,17 @@
         "done": false
     },
     {
-        "title": "разобраться с задачами 1",
+        "title": "Решить несколько новых задач",
+        "priority": 2,
+        "done": false
+    },
+    {
+        "title": "Поесть мороженое",
+        "priority": 2,
+        "done": false
+    },
+    {
+        "title": "Покормить кота",
         "priority": 2,
         "done": false
     }

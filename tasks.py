@@ -4,6 +4,17 @@ from datetime import datetime
 
 FILENAME = "tasks.json"
 
+def get_task_list(tasks: list) -> str:
+    if not tasks:
+        return "У вас пока нет задач ✅"
+
+    message = "Ваши задачи:\n\n"
+
+    for i, task in enumerate(tasks, start=1):
+        status = "✅" if task.get("done") else "🔲"
+        message += f"{i}. {status} {task['title']}\n (Приоритет: {task['priority']})\n\n"
+    return message
+
 def get_priority_icon(priority):
     mapping = {
         1: "🔥",
