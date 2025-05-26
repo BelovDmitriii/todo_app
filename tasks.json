@@ -28,5 +28,10 @@
         "title": "убраться дома",
         "priority": 2,
         "done": false
+    },
+    {
+        "title": "разобраться с задачами 1",
+        "priority": 2,
+        "done": false
     }
 ]

@@ -14,10 +14,10 @@
 
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/твой_ник/telegram-todo-bot.git
-cd telegram-todo-bot
-Установите зависимости:
+git clone https://github.com/BelovDmitriii/todo_app
+cd todo_app
 
+Установите зависимости:
 pip install -r requirements.txt
 Создайте файл .env и вставьте туда ваш токен:
 

@@ -1,7 +1,6 @@
 import json
 import os
 from datetime import datetime
-import re
 
 FILENAME = "tasks.json"
 
