@@ -91,7 +91,7 @@ def delete_task():
     if 0 <= index < len(tasks):
         removed = tasks.pop(index)
         save_tasks(tasks)
-        print(f"Задача \"{removed['title']}\" удалена.")
+        print(f"Задача \'{removed['title']}\' удалена.")
     else:
         print("Ошибка: некорректный номер задачи.")
 
@@ -144,7 +144,7 @@ def export_tasks(filename):
         for task in tasks:
             status = "✓" if task["done"] else "✗"
             priority_icon = get_priority_icon(task["priority"])
-            file.write(f"{status} {priority_icon} {task["title"]}\n")
+            file.write(f"{status} {priority_icon} {task['title']}\n")
 
 # Перенос задач из другого файла и добавление в текущий
 def import_tasks(filename):
