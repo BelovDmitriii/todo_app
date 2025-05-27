@@ -25,11 +25,6 @@
         "done": true
     },
     {
-        "title": "убраться дома",
-        "priority": 2,
-        "done": true
-    },
-    {
         "title": "заправить машину",
         "priority": 2,
         "done": false

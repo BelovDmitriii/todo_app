@@ -155,24 +155,18 @@ async def list_with_inline(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(f"Список задач пуст. {EMOJIS['status']['cancelled']}")
         return
 
-    keyboard = []
     for i, task in enumerate(tasks):
         status = "✅" if task.get("done") else "🔲"
         priority_icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(task["priority"], "")
-        text = f"{status} {priority_icon} {task['title']}"
+        text = f"*{i + 1}. {status} {priority_icon} {task['title']}*"
 
-        btn_toggle = InlineKeyboardButton(
-            text="Выполнить/Отменить",
-            callback_data=f"toggle_{i}"
-        )
-        btn_delete = InlineKeyboardButton(
-            text="Удалить",
-            callback_data=f"delete_{i}"
-        )
-        keyboard.append([InlineKeyboardButton(text, callback_data="noop"), btn_toggle, btn_delete])
+        buttons = [
+            InlineKeyboardButton("✅ Выполнить/Отменить", callback_data=f"toggle_{i}"),
+            InlineKeyboardButton("🗑 Удалить", callback_data=f"delete_{i}")
+        ]
 
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text("Ваши задачи:", reply_markup=reply_markup)
+        reply_markup = InlineKeyboardMarkup([buttons])
+        await update.message.reply_text(text, reply_markup=reply_markup, parse_mode="Markdown")
 
 async def inline_callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
