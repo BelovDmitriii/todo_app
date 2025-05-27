@@ -65,7 +65,7 @@ async def delete_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if 0 <= index < len(tasks):
         deleted_task = tasks.pop(index)
         save_tasks(tasks)
-        await update.message.reply_text(f"Удалена задача № {index + 1} {deleted_task["title"]}")
+        await update.message.reply_text(f"Удалена задача № {index + 1} {deleted_task['title']}")
         message = get_task_list(tasks)
         await update.message.reply_text(message)
     else:
