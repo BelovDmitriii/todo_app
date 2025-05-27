@@ -2,7 +2,7 @@
     {
         "title": "Решить несколько новых задач",
         "priority": 2,
-        "done": false
+        "done": true
     },
     {
         "title": "Поесть мороженое",
@@ -17,12 +17,12 @@
     {
         "title": "Выучить песню",
         "priority": 2,
-        "done": false
+        "done": true
     },
     {
         "title": "прокачать todo проект",
         "priority": 1,
-        "done": false
+        "done": true
     },
     {
         "title": "убраться дома",
@@ -32,7 +32,7 @@
     {
         "title": "заправить машину",
         "priority": 2,
-        "done": true
+        "done": false
     },
     {
         "title": "выучить python",
@@ -42,7 +42,7 @@
     {
         "title": "Решить 20 задач на CodeWars",
         "priority": 2,
-        "done": true
+        "done": false
     },
     {
         "title": "сходить на тренировку",

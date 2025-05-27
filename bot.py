@@ -1,8 +1,9 @@
-from telegram import Update
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from dotenv import load_dotenv
 import os
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, CallbackQueryHandler
 from tasks import load_tasks, save_tasks, get_task_list, sort_tasks
+from emojis import EMOJIS
 
 load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
@@ -24,13 +25,14 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "🛠 *Доступные команды:*\n\n"
         "/start — приветствие и краткая инструкция\n"
         "/help — показать это сообщение\n"
-        "/add <текст задачи> — добавить новую задачу\n"
+        "/add <текст задачи> — добавить новую задачу, далее через пробел приоритет\n"
         "/list — показать текущие задачи\n"
         "/delete <номер> — удалить задачу\n"
         "/edit <номер> <новый текст> — изменить задачу\n"
         "/done <номер> — отметить задачу выполненной / невыполненной\n"
         "/sort — отсортировать задачи по приоритету и статусу\n"
         "/search <ключевое слово> — найти задачи по тексту\n"
+        "/listinline - выводит задачи с инлайн-кнопками\n"
     )
     await update.message.reply_text(help_text, parse_mode="Markdown")
 
@@ -50,7 +52,7 @@ async def add(update: Update, context: ContextTypes.DEFAULT_TYPE):
     tasks.append(new_task)
     save_tasks(tasks)
 
-    await update.message.reply_text(f"Добавлена задача: {title}")
+    await update.message.reply_text(f"Добавлена задача: {title}{EMOJIS['status']['done']}")
     message = get_task_list(tasks)
     await update.message.reply_text(message)
 
@@ -147,6 +149,61 @@ async def search_tasks(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text(message)
 
+async def list_with_inline(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    tasks = load_tasks()
+    if not tasks:
+        await update.message.reply_text(f"Список задач пуст. {EMOJIS['status']['cancelled']}")
+        return
+
+    keyboard = []
+    for i, task in enumerate(tasks):
+        status = "✅" if task.get("done") else "🔲"
+        priority_icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(task["priority"], "")
+        text = f"{status} {priority_icon} {task['title']}"
+
+        btn_toggle = InlineKeyboardButton(
+            text="Выполнить/Отменить",
+            callback_data=f"toggle_{i}"
+        )
+        btn_delete = InlineKeyboardButton(
+            text="Удалить",
+            callback_data=f"delete_{i}"
+        )
+        keyboard.append([InlineKeyboardButton(text, callback_data="noop"), btn_toggle, btn_delete])
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.message.reply_text("Ваши задачи:", reply_markup=reply_markup)
+
+async def inline_callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+
+    data = query.data
+    tasks = load_tasks()
+
+    if data.startswith("toggle_"):
+        index = int(data.split("_")[1])
+        if 0 <= index < len(tasks):
+            tasks[index]["done"] = not tasks[index].get("done", False)
+            save_tasks(tasks)
+            await query.edit_message_text(f"Статус задачи изменён: {tasks[index]['title']}")
+        else:
+            await query.edit_message_text("Неверный индекс задачи.")
+
+    elif data.startswith("delete_"):
+        index = int(data.split("_")[1])
+        if 0 <= index < len(tasks):
+            deleted_task = tasks.pop(index)
+            save_tasks(tasks)
+            await query.edit_message_text(f"Удалена задача: {deleted_task['title']}")
+        else:
+            await query.edit_message_text("Неверный индекс задачи.")
+
+    else:
+        # Просто обновим список после любого действия
+        message = get_task_list(tasks)
+        await query.edit_message_text(message)
+
 if __name__ == "__main__":
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
@@ -158,4 +215,6 @@ if __name__ == "__main__":
     app.add_handler(CommandHandler("done", toggle_task_status))
     app.add_handler(CommandHandler("sort", sort_command))
     app.add_handler(CommandHandler("search", search_tasks))
+    app.add_handler(CommandHandler("listinline", list_with_inline))
+    app.add_handler(CallbackQueryHandler(inline_callback_handler))
     app.run_polling()
