@@ -12,8 +12,16 @@ def get_task_list(tasks: list) -> str:
 
     for i, task in enumerate(tasks, start=1):
         status = "✅" if task.get("done") else "🔲"
-        message += f"{i}. {status} {task['title']}\n (Приоритет: {task['priority']})\n\n"
+        priority_icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(task["priority"], "")
+        message += f"{i}. {status} {priority_icon} {task['title']}\n\n"
+
     return message
+
+def sort_tasks(tasks):
+    return sorted(
+        tasks,
+        key=lambda task: (task["done"], -task["priority"])
+    )
 
 def get_priority_icon(priority):
     mapping = {
@@ -109,13 +117,13 @@ def toggle_task_status(index, complete = True):
     return 'invalid_index'
 
 #сортировка задач на выполненные/ невыполненные
-def sort_tasks():
-    tasks = load_tasks()
+# def sort_tasks():
+#     tasks = load_tasks()
 
-    tasks.sort(key=lambda x: x["done"])
-    save_tasks(tasks)
+#     tasks.sort(key=lambda x: x["done"])
+#     save_tasks(tasks)
 
-    print("Задачи отсортированы: невыполненные сначала, выполненные — после.")
+#     print("Задачи отсортированы: невыполненные сначала, выполненные — после.")
 
 #Поиск задач по ключевому слову
 def search_tasks(query):
