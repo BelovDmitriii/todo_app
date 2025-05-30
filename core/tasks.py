@@ -1,8 +1,9 @@
 import json
 import os
 from datetime import datetime
+from config import TASKS_FILE as FILENAME
 
-FILENAME = "tasks.json"
+__all__ = ["load_tasks", "save_tasks", "get_task_list", "sort_tasks"]
 
 def get_task_list(tasks: list) -> str:
     if not tasks:

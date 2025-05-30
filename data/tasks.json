@@ -5,9 +5,9 @@
         "done": true
     },
     {
-        "title": "Поесть мороженое",
+        "title": "откорректировать код в приложении",
         "priority": 2,
-        "done": false
+        "done": true
     },
     {
         "title": "Покормить кота",
@@ -43,5 +43,10 @@
         "title": "сходить на тренировку",
         "priority": 2,
         "done": true
+    },
+    {
+        "title": "Найти фильм на вечер",
+        "priority": 2,
+        "done": false
     }
 ]
