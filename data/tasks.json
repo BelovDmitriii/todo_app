@@ -48,5 +48,10 @@
         "title": "Найти фильм на вечер",
         "priority": 2,
         "done": false
+    },
+    {
+        "title": "помыть машину",
+        "priority": 3,
+        "done": false
     }
 ]
