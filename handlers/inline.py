@@ -18,7 +18,8 @@ async def list_with_inline(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         task_buttons = [
             InlineKeyboardButton("✅ Выполнить/Отменить", callback_data=f"toggle_{i}"),
-            InlineKeyboardButton("🗑 Удалить", callback_data=f"delete_{i}")
+            InlineKeyboardButton("🗑 Удалить", callback_data=f"delete_{i}"),
+            InlineKeyboardButton("✏️ Изменить", callback_data=f"edit_{i}")
         ]
         keyboard = InlineKeyboardMarkup([task_buttons])
 
@@ -47,6 +48,14 @@ async def inline_callback_handler(update: Update, context: ContextTypes.DEFAULT_
             deleted_task = tasks.pop(index)
             save_tasks(tasks)
             await query.edit_message_text(f"Удалена задача: {deleted_task['title']}")
+        else:
+            await query.edit_message_text("Неверный индекс задачи.")
+
+    elif data.startswith("edit_"):
+        index = int(data.split("_")[1])
+        if 0 <= index < len(tasks):
+            context.user_data["edit_index"] = index
+            await query.edit_message_text(f"Введите новый текст для задачи:\n\n*{tasks[index]['title']}*", parse_mode="Markdown")
         else:
             await query.edit_message_text("Неверный индекс задачи.")
 

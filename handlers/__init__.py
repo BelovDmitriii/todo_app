@@ -3,13 +3,13 @@ from .add import add
 from .list import list
 from .delete import delete_task
 from .help import help_command
-from .edit import edit_task
+from .edit import edit_task, handle_edit_reply
 from .toggle import toggle_task_status
 from .sort import sort_command
 from .search import search_tasks
 
 from .inline import list_with_inline, inline_callback_handler
-from telegram.ext import CommandHandler, CallbackQueryHandler
+from telegram.ext import CommandHandler, CallbackQueryHandler, MessageHandler, filters
 
 def register_handlers(app):
     app.add_handler(CommandHandler("start", start))
@@ -23,4 +23,5 @@ def register_handlers(app):
     app.add_handler(CommandHandler("search", search_tasks))
     app.add_handler(CommandHandler("listinline", list_with_inline))
     app.add_handler(CallbackQueryHandler(inline_callback_handler))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_edit_reply))
     app.run_polling()
