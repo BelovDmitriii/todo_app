@@ -1,7 +1,5 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
-from telegram import Update
-from telegram.ext import ContextTypes
 from core import load_tasks, save_tasks, get_task_list
 from emojis import EMOJIS
 
@@ -11,23 +9,21 @@ async def list_with_inline(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(f"Список задач пуст. {EMOJIS['status']['cancelled']}")
         return
 
-    message_lines = []
-    keyboard = []
+    await update.message.reply_text("📋 *Ваши задачи:*", parse_mode="Markdown")
 
     for i, task in enumerate(tasks):
         status = "✅" if task.get("done") else "🔲"
         priority_icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(task["priority"], "")
-        message_lines.append(f"*{i + 1}. {status} {priority_icon} {task['title']}*")
+        message = f"*{i + 1}. {status} {priority_icon} {task['title']}*"
 
         task_buttons = [
             InlineKeyboardButton("✅ Выполнить/Отменить", callback_data=f"toggle_{i}"),
             InlineKeyboardButton("🗑 Удалить", callback_data=f"delete_{i}")
         ]
-        keyboard.append(task_buttons)
+        keyboard = InlineKeyboardMarkup([task_buttons])
 
-    message = "📋 *Ваши задачи:*\n\n" + "\n\n".join(message_lines)
+        await update.message.reply_text(message, reply_markup=keyboard, parse_mode="Markdown")
 
-    await update.message.reply_text(message, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="Markdown")
 
 async def inline_callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
