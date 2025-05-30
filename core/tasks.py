@@ -1,6 +1,7 @@
 import json
 import os
 from config import TASKS_FILE as FILENAME
+from core.models import Task
 
 __all__ = ["load_tasks", "save_tasks", "get_task_list", "sort_tasks"]
 
@@ -8,7 +9,9 @@ def load_tasks():
     if not os.path.exists(FILENAME):
         return []
     with open(FILENAME, 'r', encoding='utf-8') as file:
-            return json.load(file)
+        raw_tasks = json.load(file)
+        return [Task.from_dict(t) for t in raw_tasks]
+
 
 def save_tasks(tasks):
     with open(FILENAME, 'w', encoding='utf-8') as file:
