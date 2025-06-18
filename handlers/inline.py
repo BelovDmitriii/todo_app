@@ -12,9 +12,9 @@ async def list_with_inline(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("📋 *Ваши задачи:*", parse_mode="Markdown")
 
     for i, task in enumerate(tasks):
-        status = "✅" if task.get("done") else "🔲"
-        priority_icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(task["priority"], "")
-        message = f"*{i + 1}. {status} {priority_icon} {task['title']}*"
+        status = "✅" if task.done else "🔲"
+        priority_icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(task.priority, "")
+        message = f"*{i + 1}. {status} {priority_icon} {task.title}*"
 
         task_buttons = [
             InlineKeyboardButton("✅ Выполнить/Отменить", callback_data=f"toggle_{i}"),

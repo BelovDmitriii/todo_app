@@ -1,5 +1,30 @@
 [
     {
+        "title": "помыть машину",
+        "priority": 3,
+        "done": false
+    },
+    {
+        "title": "Покормить кота",
+        "priority": 2,
+        "done": false
+    },
+    {
+        "title": "заправить машину",
+        "priority": 2,
+        "done": false
+    },
+    {
+        "title": "Решить 20 задач на CodeWars",
+        "priority": 2,
+        "done": false
+    },
+    {
+        "title": "Найти фильм на вечер",
+        "priority": 2,
+        "done": false
+    },
+    {
         "title": "Купить продукты в магазине",
         "priority": 2,
         "done": true
@@ -10,24 +35,9 @@
         "done": true
     },
     {
-        "title": "Покормить кота",
-        "priority": 2,
-        "done": false
-    },
-    {
         "title": "Выучить песню",
         "priority": 2,
         "done": true
-    },
-    {
-        "title": "прокачать todo проект",
-        "priority": 1,
-        "done": true
-    },
-    {
-        "title": "заправить машину",
-        "priority": 2,
-        "done": false
     },
     {
         "title": "выучить python",
@@ -35,23 +45,13 @@
         "done": true
     },
     {
-        "title": "Решить 20 задач на CodeWars",
-        "priority": 2,
-        "done": false
-    },
-    {
         "title": "сходить на тренировку",
         "priority": 2,
         "done": true
     },
     {
-        "title": "Найти фильм на вечер",
-        "priority": 2,
-        "done": false
-    },
-    {
-        "title": "помыть машину",
-        "priority": 3,
-        "done": false
+        "title": "прокачать todo проект",
+        "priority": 1,
+        "done": true
     }
 ]

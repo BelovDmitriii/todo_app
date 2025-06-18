@@ -15,7 +15,7 @@ def load_tasks():
 
 def save_tasks(tasks):
     with open(FILENAME, 'w', encoding='utf-8') as file:
-        json.dump(tasks, file, indent=4, ensure_ascii=False)
+        json.dump([task.to_dict() for task in tasks], file, indent=4, ensure_ascii=False)
 
 def get_task_list(tasks: list) -> str:
     if not tasks:
@@ -24,14 +24,12 @@ def get_task_list(tasks: list) -> str:
     message = "Ваши задачи:\n\n"
 
     for i, task in enumerate(tasks, start=1):
-        status = "✅" if task.get("done") else "🔲"
-        priority_icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(task["priority"], "")
-        message += f"{i}. {status} {priority_icon} {task['title']}\n\n"
+        message += f"{i}. {str(task)}\n\n"
 
     return message
 
-def sort_tasks(tasks):
+def sort_tasks(tasks: list) -> list:
     return sorted(
         tasks,
-        key=lambda task: (task["done"], -task["priority"])
+        key=lambda task: (task.done, -task.priority)
     )

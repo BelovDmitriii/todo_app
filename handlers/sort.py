@@ -13,8 +13,8 @@ async def sort_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     message = "📋 Задачи отсортированы:\n\n"
     for idx, task in enumerate(sorted_tasks, start=1):
-        status = "✅" if task["done"] else "🔲"
-        priority_icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(task["priority"], "")
-        message += f"{idx}. {status} {priority_icon} {task['title']}\n\n"
+        status = "✅" if task.done else "🔲"
+        priority_icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(task.priority, "")
+        message += f"{idx}. {status} {priority_icon} {task.title}\n\n"
 
     await update.message.reply_text(message)

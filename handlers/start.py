@@ -1,12 +1,7 @@
-from telegram import Update, ReplyKeyboardMarkup
+from telegram import Update
 from telegram.ext import ContextTypes
+from core.utils import main_menu_markup
 
-main_menu_keyboard = [
-    ["➕ Добавить", "📋 Список"],
-    ["🗑 Удалить", "⚙ Настройки"]
-]
-
-main_menu_markup = ReplyKeyboardMarkup(main_menu_keyboard, resize_keyboard=True)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(

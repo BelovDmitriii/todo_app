@@ -17,8 +17,8 @@ async def search_tasks(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     message = f"Результаты поиска по '{query}':\n\n"
     for i, task in enumerate(filtered, 1):
-        status = "✅" if task.get("done") else "🔲"
-        priority_icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(task["priority"], "")
-        message += f"{i}. {status} {priority_icon} {task['title']}\n\n"
+        status = "✅" if task.get.done else "🔲"
+        priority_icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(task.priority, "")
+        message += f"{i}. {status} {priority_icon} {task.title}\n\n"
 
     await update.message.reply_text(message)
