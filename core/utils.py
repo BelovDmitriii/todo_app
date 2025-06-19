@@ -1,8 +1,18 @@
-from telegram import ReplyKeyboardMarkup
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
-main_menu_keyboard = [
-    ["➕ Добавить", "📋 Список"],
-    ["🗑 Удалить", "⚙ Настройки"]
-]
+def main_menu_markup():
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("📋 Отобразить список задач", callback_data="list"),
+        ],
+        [
+            InlineKeyboardButton("⚙ Настройки", callback_data="settings"),
+        ]
+    ])
 
-main_menu_markup = ReplyKeyboardMarkup(main_menu_keyboard, resize_keyboard=True)
+def list_menu_markup():
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("📋 Действия с задачами", callback_data="listinline"),
+        ],
+    ])

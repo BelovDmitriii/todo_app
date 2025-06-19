@@ -29,9 +29,10 @@ async def handle_edit_reply(update: Update, context: ContextTypes.DEFAULT_TYPE):
     index = context.user_data.pop("edit_index")
 
     tasks = load_tasks()
+    task = tasks[index]
     if 0 <= index < len(tasks):
-        old_title = tasks[index]["title"]
-        tasks[index]["title"] = new_text
+        old_title = task.title
+        task.title = new_text
         save_tasks(tasks)
         await update.message.reply_text(f"✅ Задача обновлена:\n\n{old_title} → {new_text}")
     else:

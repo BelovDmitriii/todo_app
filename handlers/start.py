@@ -8,5 +8,5 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Привет! Я твой ToDo-бот.\n"
         "Используй команду /list, чтобы посмотреть задачи.\n"
         "И команду /help, чтобы посмотреть все возможные команды.",
-        reply_markup=main_menu_markup
+        reply_markup=main_menu_markup()
     )
