@@ -6,11 +6,9 @@ def main_menu_markup():
             InlineKeyboardButton("📋 Отобразить список задач", callback_data="list"),
         ],
         [
-            InlineKeyboardButton("➕ Добавить задачу", callback_data="add")
-        ],
-        [
+            InlineKeyboardButton("➕ Добавить задачу", callback_data="add"),
             InlineKeyboardButton("❓ Помощь", callback_data="help"),
-        ]
+        ],
     ])
 
 def list_menu_markup():
@@ -19,6 +17,10 @@ def list_menu_markup():
             InlineKeyboardButton("📋 Действия с задачами", callback_data="listinline"),
         ],
         [
+            InlineKeyboardButton("➕ Добавить задачу", callback_data="add"),
             InlineKeyboardButton("❓ Помощь", callback_data="help"),
-        ]
+        ],
+        [
+            InlineKeyboardButton("🔀 Отсортировать задачи", callback_data="sort"),
+        ],
     ])

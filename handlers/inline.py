@@ -1,9 +1,10 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
-from core import load_tasks, save_tasks, get_task_list
+from core import load_tasks, save_tasks, get_task_list, sort_tasks
 from core.utils import list_menu_markup, main_menu_markup
 from .help import help_command
 from handlers.add import ask_add_task
+from handlers.sort import sort_command
 from emojis import EMOJIS
 
 async def list_with_inline(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -53,6 +54,12 @@ async def inline_callback_handler(update: Update, context: ContextTypes.DEFAULT_
 
     elif data == "add":
         await ask_add_task(update, context)
+
+    elif data == "sort":
+        sorted_tasks = sort_tasks(tasks)
+        save_tasks(sorted_tasks)
+        message = get_task_list(sorted_tasks)
+        await query.edit_message_text(message, reply_markup=list_menu_markup(), parse_mode="Markdown")
 
     elif data.startswith("toggle_"):
         index = int(data.split("_")[1])
