@@ -2,17 +2,17 @@
     {
         "title": "помыть машину",
         "priority": 3,
-        "done": true
+        "done": false
     },
     {
-        "title": "Покормить чужого кота",
+        "title": "Покормить кота",
         "priority": 2,
-        "done": true
+        "done": false
     },
     {
         "title": "заправить машину",
         "priority": 2,
-        "done": true
+        "done": false
     },
     {
         "title": "Решить 20 задач на CodeWars",
@@ -22,17 +22,17 @@
     {
         "title": "Найти фильм на вечер",
         "priority": 2,
-        "done": true
+        "done": false
     },
     {
         "title": "Купить продукты в магазине",
         "priority": 2,
-        "done": false
+        "done": true
     },
     {
         "title": "откорректировать код в приложении",
         "priority": 2,
-        "done": false
+        "done": true
     },
     {
         "title": "Выучить песню",
@@ -42,11 +42,31 @@
     {
         "title": "выучить python",
         "priority": 2,
+        "done": true
+    },
+    {
+        "title": "сходить на тренировку",
+        "priority": 2,
+        "done": true
+    },
+    {
+        "title": "прокачать todo проект",
+        "priority": 1,
+        "done": true
+    },
+    {
+        "title": "Купить молоко",
+        "priority": 2,
         "done": false
     },
     {
-        "title": "Сходить на тренировку по боксу",
+        "title": "Покормить кота на улице",
         "priority": 2,
-        "done": true
+        "done": false
+    },
+    {
+        "title": "поесть мороженое вилкой",
+        "priority": 1,
+        "done": false
     }
 ]

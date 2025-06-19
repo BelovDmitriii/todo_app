@@ -1,33 +1,22 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from emojis import EMOJIS
+
+from core import load_tasks, save_tasks, Task
+from core.utils import main_menu_markup
 
 async def handle_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
+    action = context.user_data.get("action")
 
-    if text == EMOJIS['buttons']['list']:
-        await update.message.reply_text("Вот твои задачи...")
+    if action == "add_task":
+        tasks = load_tasks()
+        new_task = Task(title=text, done=False, priority=2)
+        tasks.append(new_task)
+        save_tasks(tasks)
 
-    elif text == EMOJIS['buttons']['add']:
-        await update.message.reply_text("Введите задачу, которую хотите добавить:")
-        context.user_data["action"] = "add_task"
-
-    elif text == EMOJIS['buttons']['delete']:
-        await update.message.reply_text("Введите номер задачи для удаления:")
-        context.user_data["action"] = "delete_task"
-
-    elif text == EMOJIS['buttons']['settings']:
-        await update.message.reply_text("Тут будут настройки (в будущем).")
-
-    else:
-        action = context.user_data.get("action")
-        if action == "add_task":
-            await update.message.reply_text(f"Задача '{text}' добавлена!")
-            context.user_data["action"] = None
-
-        elif action == "delete_task":
-            await update.message.reply_text(f"Задача под номером '{text}' удалена!")
-            context.user_data["action"] = None
-
-        else:
-            await update.message.reply_text("Выбери действие с помощью кнопок 👇")
+        await update.message.reply_text(
+            f"✅ Задача добавлена: {text}",
+            reply_markup=main_menu_markup()
+        )
+        context.user_data["action"] = None
+        return

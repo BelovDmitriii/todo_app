@@ -1,7 +1,9 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 from core import load_tasks, save_tasks, get_task_list
+from core.models import Task
 from emojis import EMOJIS
+from core.utils import main_menu_markup
 
 async def add(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args:
@@ -18,11 +20,7 @@ async def add(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         title = " ".join(context.args)
 
-    new_task = {
-        "title": title,
-        "priority": priority,
-        "done": False
-    }
+    new_task = Task(title=title, priority=priority, done=False)
 
     tasks = load_tasks()
     tasks.append(new_task)
@@ -30,4 +28,26 @@ async def add(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text(f"Добавлена задача: {title}{EMOJIS['status']['done']}")
     message = get_task_list(tasks)
-    await update.message.reply_text(message)
+    await update.message.reply_text(message, reply_markup=main_menu_markup())
+
+async def ask_add_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data["action"] = "add"
+    await update.callback_query.message.reply_text("📝 Введите текст новой задачи:")
+
+async def handle_add_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    title = update.message.text.strip()
+    if not title:
+        await update.message.reply_text("⚠️ Текст задачи не может быть пустым.")
+        return
+
+    tasks = load_tasks()
+    new_task = Task(title=title, priority=2, done=False)
+    tasks.append(new_task)
+    save_tasks(tasks)
+
+    await update.message.reply_text(
+        f"✅ Задача добавлена: {title}",
+        reply_markup=main_menu_markup()
+    )
+
+    context.user_data["action"] = None

@@ -3,6 +3,7 @@ from telegram.ext import ContextTypes
 from core import load_tasks, save_tasks, get_task_list
 from core.utils import list_menu_markup, main_menu_markup
 from .help import help_command
+from handlers.add import ask_add_task
 from emojis import EMOJIS
 
 async def list_with_inline(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -49,6 +50,9 @@ async def inline_callback_handler(update: Update, context: ContextTypes.DEFAULT_
 
     elif data == "help":
         await help_command(update, context)
+
+    elif data == "add":
+        await ask_add_task(update, context)
 
     elif data.startswith("toggle_"):
         index = int(data.split("_")[1])

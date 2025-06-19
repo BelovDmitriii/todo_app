@@ -6,6 +6,9 @@ def main_menu_markup():
             InlineKeyboardButton("📋 Отобразить список задач", callback_data="list"),
         ],
         [
+            InlineKeyboardButton("➕ Добавить задачу", callback_data="add")
+        ],
+        [
             InlineKeyboardButton("❓ Помощь", callback_data="help"),
         ]
     ])

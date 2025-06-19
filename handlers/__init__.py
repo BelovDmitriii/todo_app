@@ -8,6 +8,7 @@ from .toggle import toggle_task_status
 from .sort import sort_command
 from .search import search_tasks
 from .inline import list_with_inline, inline_callback_handler
+from handlers.add import handle_add_task
 from telegram.ext import CommandHandler, CallbackQueryHandler, MessageHandler, filters
 
 def register_handlers(app):
@@ -22,6 +23,7 @@ def register_handlers(app):
     app.add_handler(CommandHandler("search", search_tasks))
     app.add_handler(CommandHandler("listinline", list_with_inline))
     app.add_handler(CallbackQueryHandler(inline_callback_handler))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_add_task))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_edit_reply))
 
     app.run_polling()
