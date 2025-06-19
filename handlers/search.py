@@ -9,7 +9,7 @@ async def search_tasks(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     tasks = load_tasks()
-    filtered = [task for task in tasks if query in task["title"].lower()]
+    filtered = [task for task in tasks if query in task.title.lower()]
 
     if not filtered:
         await update.message.reply_text(f"По запросу '{query}' задачи не найдены.")
@@ -17,7 +17,7 @@ async def search_tasks(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     message = f"Результаты поиска по '{query}':\n\n"
     for i, task in enumerate(filtered, 1):
-        status = "✅" if task.get.done else "🔲"
+        status = "✅" if task.done else "🔲"
         priority_icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(task.priority, "")
         message += f"{i}. {status} {priority_icon} {task.title}\n\n"
 

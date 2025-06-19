@@ -15,4 +15,5 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "/search <ключевое слово> — найти задачи по тексту\n"
         "/listinline - выводит задачи с инлайн-кнопками\n"
     )
-    await update.message.reply_text(help_text, parse_mode="Markdown")
+    msg = update.message or update.callback_query.message
+    await msg.reply_text(help_text, parse_mode="Markdown")
