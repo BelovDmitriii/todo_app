@@ -35,6 +35,10 @@ async def ask_add_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.callback_query.message.reply_text("📝 Введите текст новой задачи:")
 
 async def handle_add_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if context.user_data.get("action") != "add":
+        await update.message.reply_text("⚠️ Введите команду или нажми одну из кнопок 👇", reply_markup=main_menu_markup())
+        return
+
     title = update.message.text.strip()
     if not title:
         await update.message.reply_text("⚠️ Текст задачи не может быть пустым.")

@@ -4,7 +4,6 @@ from core import load_tasks, save_tasks, get_task_list, sort_tasks
 from core.utils import list_menu_markup, main_menu_markup
 from .help import help_command
 from handlers.add import ask_add_task
-from handlers.sort import sort_command
 from emojis import EMOJIS
 
 async def list_with_inline(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -13,7 +12,7 @@ async def list_with_inline(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message_obj = update.message or update.callback_query.message
 
     if not tasks:
-        await message_obj.reply_text(f"Список задач пуст. {EMOJIS['status']['cancelled']}")
+        await message_obj.reply_text(f"Список задач пуст. {EMOJIS['status']['cancelled']}", reply_markup=main_menu_markup())
         return
 
     await message_obj.reply_text("📋 *Ваши задачи:*", parse_mode="Markdown")

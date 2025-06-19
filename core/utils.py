@@ -3,10 +3,11 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 def main_menu_markup():
     return InlineKeyboardMarkup([
         [
-            InlineKeyboardButton("📋 Отобразить список задач", callback_data="list"),
+            InlineKeyboardButton("➕ Добавить задачу", callback_data="add"),
+
         ],
         [
-            InlineKeyboardButton("➕ Добавить задачу", callback_data="add"),
+            InlineKeyboardButton("📋 Отобразить список задач", callback_data="list"),
             InlineKeyboardButton("❓ Помощь", callback_data="help"),
         ],
     ])
@@ -14,10 +15,10 @@ def main_menu_markup():
 def list_menu_markup():
     return InlineKeyboardMarkup([
         [
-            InlineKeyboardButton("📋 Действия с задачами", callback_data="listinline"),
+            InlineKeyboardButton("➕ Добавить задачу", callback_data="add"),
         ],
         [
-            InlineKeyboardButton("➕ Добавить задачу", callback_data="add"),
+            InlineKeyboardButton("📋 Действия с задачами", callback_data="listinline"),
             InlineKeyboardButton("❓ Помощь", callback_data="help"),
         ],
         [

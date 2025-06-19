@@ -8,9 +8,15 @@ __all__ = ["load_tasks", "save_tasks", "get_task_list", "sort_tasks"]
 def load_tasks():
     if not os.path.exists(FILENAME):
         return []
-    with open(FILENAME, 'r', encoding='utf-8') as file:
-        raw_tasks = json.load(file)
-        return [Task.from_dict(t) for t in raw_tasks]
+    try:
+        with open(FILENAME, 'r', encoding='utf-8') as file:
+            content = file.read().strip()
+            if not content:
+                return []
+            raw_tasks = json.loads(content)
+            return [Task.from_dict(t) for t in raw_tasks]
+    except (json.JSONDecodeError, TypeError):
+        return[]
 
 
 def save_tasks(tasks):
