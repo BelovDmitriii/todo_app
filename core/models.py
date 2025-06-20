@@ -1,4 +1,22 @@
-class Task:
+from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy.orm import declarative_base
+
+Base = declarative_base()
+
+
+
+class Task(Base):
+
+    __tablename__ = "tasks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, nullable=False)
+    priority = Column(Integer, default=2)
+    done = Column(Boolean, default=False)
+
+    def __repr__ (self):
+        return f"<Task(id={self.id}, title='{self.title}', done={self.done})>"
+
     def __init__(self, title: str, priority: int = 2, done: bool = False):
         self.title = title
         self.priority = priority

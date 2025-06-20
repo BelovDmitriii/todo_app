@@ -1,7 +1,9 @@
 ```gitignore
+todo.db
 # Python
 __pycache__/
 *.pyc
+*.py[cod]
 
 # IDE
 .vscode/
@@ -18,3 +20,4 @@ venv/
 
 # Secrets
 .env
+*.log

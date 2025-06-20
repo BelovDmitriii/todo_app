@@ -1,6 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from core import load_tasks, save_tasks, get_task_list
+from core.db import get_tasks, add_task
+from core import get_task_list
 from core.models import Task
 from emojis import EMOJIS
 from core.utils import main_menu_markup, short_list_menu_markup
@@ -20,14 +21,12 @@ async def add(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         title = " ".join(context.args)
 
-    new_task = Task(title=title, priority=priority, done=False)
-
-    tasks = load_tasks()
+    tasks = get_tasks()
     if any(task.title.lower() == title.lower() for task in tasks):
         await update.message.reply_text("⚠️ Такая задача уже есть в твоем списке.", reply_markup=short_list_menu_markup())
         return
-    tasks.append(new_task)
-    save_tasks(tasks)
+
+    add_task(title=title, priority=priority)
 
     await update.message.reply_text(f"Добавлена задача: {title}{EMOJIS['status']['done']}")
     message = get_task_list(tasks)
@@ -47,15 +46,13 @@ async def handle_add_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("⚠️ Текст задачи не может быть пустым.")
         return
 
-    tasks = load_tasks()
+    tasks = get_tasks()
 
     if any(task.title.lower() == title.lower() for task in tasks):
         await update.message.reply_text("⚠️ Такая задача уже есть в твоем списке.", reply_markup=short_list_menu_markup())
         return
 
-    new_task = Task(title=title, priority=2, done=False)
-    tasks.append(new_task)
-    save_tasks(tasks)
+    add_task(title=title, priority=2)
 
     await update.message.reply_text(
         f"✅ Задача добавлена: {title}",
