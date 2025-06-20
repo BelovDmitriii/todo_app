@@ -1,20 +1,20 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from core import load_tasks, save_tasks, sort_tasks
+from core.db import get_tasks
+from core.db import sort_tasks_by_status
+from core.utils import get_task_list
 
 async def sort_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    tasks = load_tasks()
+    tasks = get_tasks()
     if not tasks:
         await update.message.reply_text("У вас пока нет задач ✅")
         return
 
-    sorted_tasks = sort_tasks(tasks)
-    save_tasks(sorted_tasks)
+    sorted_tasks = sort_tasks_by_status()
 
-    message = "📋 Задачи отсортированы:\n\n"
-    for idx, task in enumerate(sorted_tasks, start=1):
-        status = "✅" if task.done else "🔲"
-        priority_icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(task.priority, "")
-        message += f"{idx}. {status} {priority_icon} {task.title}\n\n"
+    if not sorted_tasks:
+        await update.message.reply_text("📭 У вас пока нет задач.")
+        return
 
-    await update.message.reply_text(message)
+    message = get_task_list(sorted_tasks)
+    await update.message.reply_text(f"📋 Задачи отсортированы:\n\n{message}")

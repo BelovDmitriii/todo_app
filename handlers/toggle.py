@@ -1,6 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from core import load_tasks, save_tasks, get_task_list
+from core.utils import get_task_list
+from core.db import get_tasks
 
 async def toggle_task_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args or not context.args[0].isdigit():
@@ -8,11 +9,10 @@ async def toggle_task_status(update: Update, context: ContextTypes.DEFAULT_TYPE)
         return
 
     index = int(context.args[0]) - 1
-    tasks = load_tasks()
+    tasks = get_tasks()
 
     if 0 <= index < len(tasks):
         tasks[index]["done"] = not tasks[index].get("done", False)
-        save_tasks(tasks)
         status = "выполнена" if tasks[index]["done"] else "не выполнена"
 
         await update.message.reply_text(f"Статус задачи изменён: {tasks[index]['title']} — {status}")

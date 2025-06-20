@@ -1,10 +1,9 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
 from core.db import get_tasks, toggle_task_done, delete_task_by_index, clear_all_tasks, sort_tasks_by_priority
-from core.utils import list_menu_markup, main_menu_markup
+from core.utils import list_menu_markup, main_menu_markup, get_task_list
 from .help import help_command
 from handlers.add import ask_add_task
-from core import get_task_list
 from emojis import EMOJIS
 
 async def list_with_inline(update: Update, context: ContextTypes.DEFAULT_TYPE):

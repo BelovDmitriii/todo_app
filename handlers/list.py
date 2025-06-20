@@ -1,8 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 from core.db import get_tasks
-from core import get_task_list
-from core.utils import list_menu_markup
+from core.utils import list_menu_markup, get_task_list
 
 async def list(update: Update, context: ContextTypes.DEFAULT_TYPE):
     tasks = get_tasks()

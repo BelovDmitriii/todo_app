@@ -1,7 +1,8 @@
+import telegram
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
-from core import get_task_list, sort_tasks
-from core.utils import list_menu_markup, main_menu_markup
+from core.db import get_tasks, clear_all_tasks, sort_tasks_by_status, toggle_task_done, delete_task_by_index
+from core.utils import list_menu_markup, main_menu_markup, get_task_list
 from .help import help_command
 from handlers.add import ask_add_task
 from emojis import EMOJIS
@@ -30,17 +31,17 @@ async def list_with_inline(update: Update, context: ContextTypes.DEFAULT_TYPE):
         keyboard = InlineKeyboardMarkup([task_buttons])
 
         await message_obj.reply_text(message, reply_markup=keyboard, parse_mode="Markdown")
-    await message_obj.reply_text("Ниже можно отобразить текущий список задач", reply_markup=main_menu_markup())
 
+    await message_obj.reply_text("Ниже можно отобразить текущий список задач", reply_markup=main_menu_markup())
 
 async def inline_callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
 
     data = query.data
-    tasks = load_tasks()
 
     if data == "list":
+        tasks = get_tasks()
         message = get_task_list(tasks)
         await query.edit_message_text(message,reply_markup=list_menu_markup(), parse_mode="Markdown")
 
@@ -56,48 +57,52 @@ async def inline_callback_handler(update: Update, context: ContextTypes.DEFAULT_
 
     elif data == "clear":
         if tasks:
-            tasks.clear()
-            save_tasks(tasks)
+            clear_all_tasks()
             await query.edit_message_text("🧹 Все задачи успешно удалены.", reply_markup=list_menu_markup())
         else:
             await query.edit_message_text("Список задач уже пуст.😕", reply_markup=list_menu_markup())
 
     elif data == "sort":
-        if not tasks:
+        sorted_tasks = sort_tasks_by_status()
+        if not sorted_tasks:
             await query.edit_message_text("Список задач пока пуст.😕", reply_markup=list_menu_markup())
         else:
-            sorted_tasks = sort_tasks(tasks)
-            save_tasks(sorted_tasks)
             message = get_task_list(sorted_tasks)
-            await query.edit_message_text(message, reply_markup=list_menu_markup(), parse_mode="Markdown")
+            try:
+                await query.edit_message_text(message, reply_markup=list_menu_markup(), parse_mode="Markdown")
+            except telegram.error.BadRequest as e:
+                if "Message is not modified" in str(e):
+                    pass
+                else:
+                    raise
 
     elif data.startswith("toggle_"):
         index = int(data.split("_")[1])
-        if 0 <= index < len(tasks):
-            task = tasks[index]
-            task.done = not task.done
-            save_tasks(tasks)
+        toggle_task_done(index)
+        task = next((t for t in get_tasks() if t.id == index), None)
+        if task:
             await query.edit_message_text(f"Статус задачи изменён: {task.title}")
         else:
-            await query.edit_message_text("Неверный индекс задачи.")
+            await query.edit_message_text("Задача не найдена.")
 
     elif data.startswith("delete_"):
         index = int(data.split("_")[1])
-        if 0 <= index < len(tasks):
-            deleted_task = tasks.pop(index)
-            save_tasks(tasks)
-            await query.edit_message_text(f"Удалена задача: {deleted_task.title}")
+        task = delete_task_by_index(index)
+        if task:
+            await query.edit_message_text(f"Удалена задача: {task.title}")
         else:
             await query.edit_message_text("Неверный индекс задачи.")
 
     elif data.startswith("edit_"):
         index = int(data.split("_")[1])
-        if 0 <= index < len(tasks):
-            context.user_data["edit_index"] = index
+        context.user_data["edit_id"] = index
+        task = next((t for t in get_tasks() if t.id == index), None)
+        if task:
             await query.edit_message_text(f"Введите новый текст для задачи:\n\n*{tasks[index].title}*", parse_mode="Markdown")
         else:
-            await query.edit_message_text("Неверный индекс задачи.")
+            await query.edit_message_text("Задача не найдена.")
 
     else:
+        tasks = get_tasks()
         message = get_task_list(tasks)
         await query.edit_message_text(message)

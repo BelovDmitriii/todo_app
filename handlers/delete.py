@@ -1,6 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from core import load_tasks, save_tasks, get_task_list
+from core.utils import get_task_list
+from core.db import get_tasks
 
 async def delete_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args or not context.args[0].isdigit():
@@ -8,11 +9,10 @@ async def delete_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     index = int(context.args[0]) - 1
-    tasks = load_tasks()
+    tasks = get_tasks()
 
     if 0 <= index < len(tasks):
         deleted_task = tasks.pop(index)
-        save_tasks(tasks)
         await update.message.reply_text(f"Удалена задача № {index + 1} {deleted_task['title']}")
         message = get_task_list(tasks)
         await update.message.reply_text(message)

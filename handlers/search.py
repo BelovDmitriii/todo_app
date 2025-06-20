@@ -1,6 +1,6 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from core import load_tasks
+from core.db import get_tasks
 
 async def search_tasks(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = " ".join(context.args).lower()
@@ -8,7 +8,7 @@ async def search_tasks(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Пожалуйста, укажите слово для поиска. Например: /search отчет")
         return
 
-    tasks = load_tasks()
+    tasks = get_tasks()
     filtered = [task for task in tasks if query in task.title.lower()]
 
     if not filtered:

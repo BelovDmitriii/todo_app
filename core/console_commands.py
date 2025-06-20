@@ -1,4 +1,4 @@
-from tasks import load_tasks, save_tasks
+from core.tasks_old import load_tasks, save_tasks
 from datetime import datetime
 
 def get_priority_icon(priority):

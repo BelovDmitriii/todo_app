@@ -18,10 +18,15 @@ def load_tasks():
     except (json.JSONDecodeError, TypeError):
         return[]
 
-
 def save_tasks(tasks):
     with open(FILENAME, 'w', encoding='utf-8') as file:
         json.dump([task.to_dict() for task in tasks], file, indent=4, ensure_ascii=False)
+
+def sort_tasks(tasks: list) -> list:
+    return sorted(
+        tasks,
+        key=lambda task: (task.done, -task.priority)
+    )
 
 def get_task_list(tasks: list) -> str:
     if not tasks:
@@ -34,9 +39,3 @@ def get_task_list(tasks: list) -> str:
         message += f"{i}. {status} {priority_icon} {task.title}\n\n"
 
     return message
-
-def sort_tasks(tasks: list) -> list:
-    return sorted(
-        tasks,
-        key=lambda task: (task.done, -task.priority)
-    )

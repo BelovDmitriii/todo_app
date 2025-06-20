@@ -68,5 +68,10 @@ def sort_tasks_by_status():
     session = SessionLocal()
     tasks = session.query(Task).order_by(Task.done.asc()).all()
     session.close()
-
     return tasks
+
+# def get_tasks_sorted():
+#     session = SessionLocal()
+#     tasks = session.query(Task).order_by(Task.done.asc(), Task.priority.desc().all())
+#     session.close()
+#     return tasks

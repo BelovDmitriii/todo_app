@@ -1,4 +1,4 @@
-from tasks import add_task, load_tasks, delete_task, edit_task, toggle_task_status, list_tasks, sort_tasks, search_tasks, export_tasks, import_tasks
+from core.tasks_old import add_task, load_tasks, delete_task, edit_task, toggle_task_status, list_tasks, sort_tasks, search_tasks, export_tasks, import_tasks
 import sys
 
 def main():
