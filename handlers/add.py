@@ -3,7 +3,7 @@ from telegram.ext import ContextTypes
 from core import load_tasks, save_tasks, get_task_list
 from core.models import Task
 from emojis import EMOJIS
-from core.utils import main_menu_markup
+from core.utils import main_menu_markup, short_list_menu_markup
 
 async def add(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args:
@@ -23,6 +23,9 @@ async def add(update: Update, context: ContextTypes.DEFAULT_TYPE):
     new_task = Task(title=title, priority=priority, done=False)
 
     tasks = load_tasks()
+    if any(task.title.lower() == title.lower() for task in tasks):
+        await update.message.reply_text("⚠️ Такая задача уже есть в твоем списке.", reply_markup=short_list_menu_markup())
+        return
     tasks.append(new_task)
     save_tasks(tasks)
 
@@ -45,6 +48,11 @@ async def handle_add_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     tasks = load_tasks()
+
+    if any(task.title.lower() == title.lower() for task in tasks):
+        await update.message.reply_text("⚠️ Такая задача уже есть в твоем списке.", reply_markup=short_list_menu_markup())
+        return
+
     new_task = Task(title=title, priority=2, done=False)
     tasks.append(new_task)
     save_tasks(tasks)

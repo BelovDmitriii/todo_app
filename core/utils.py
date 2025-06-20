@@ -26,3 +26,14 @@ def list_menu_markup():
             InlineKeyboardButton("🔀 Отсортировать задачи", callback_data="sort"),
         ],
     ])
+
+def short_list_menu_markup():
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("➕ Добавить задачу", callback_data="add"),
+            InlineKeyboardButton("📋 Отобразить список задач", callback_data="list"),
+        ],
+        [
+            InlineKeyboardButton("❓ Помощь", callback_data="help"),
+        ],
+    ])
