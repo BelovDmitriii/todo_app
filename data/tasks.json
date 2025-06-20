@@ -1,62 +1,7 @@
 [
     {
-        "title": "Найти фильм на вечер",
-        "priority": 2,
-        "done": false
-    },
-    {
-        "title": "Купить молоко",
-        "priority": 2,
-        "done": true
-    },
-    {
-        "title": "Покормить кота на улице",
-        "priority": 2,
-        "done": false
-    },
-    {
-        "title": "Покормить сусана",
-        "priority": 2,
-        "done": true
-    },
-    {
-        "title": "заправить машину",
-        "priority": 2,
-        "done": true
-    },
-    {
-        "title": "Решить 20 задач на CodeWars",
-        "priority": 2,
-        "done": false
-    },
-    {
-        "title": "Купить продукты в магазине",
-        "priority": 2,
-        "done": true
-    },
-    {
-        "title": "откорректировать код в приложении",
-        "priority": 2,
-        "done": false
-    },
-    {
-        "title": "выучить python",
-        "priority": 2,
-        "done": false
-    },
-    {
-        "title": "помыть машину",
-        "priority": 3,
-        "done": true
-    },
-    {
         "title": "Покормить кота",
         "priority": 2,
-        "done": true
-    },
-    {
-        "title": "сходить на тренировку",
-        "priority": 2,
-        "done": true
+        "done": false
     }
 ]

@@ -54,11 +54,22 @@ async def inline_callback_handler(update: Update, context: ContextTypes.DEFAULT_
     elif data == "add":
         await ask_add_task(update, context)
 
+    elif data == "clear":
+        if tasks:
+            tasks.clear()
+            save_tasks(tasks)
+            await query.edit_message_text("🧹 Все задачи успешно удалены.", reply_markup=list_menu_markup())
+        else:
+            await query.edit_message_text("Список задач уже пуст.😕", reply_markup=list_menu_markup())
+
     elif data == "sort":
-        sorted_tasks = sort_tasks(tasks)
-        save_tasks(sorted_tasks)
-        message = get_task_list(sorted_tasks)
-        await query.edit_message_text(message, reply_markup=list_menu_markup(), parse_mode="Markdown")
+        if not tasks:
+            await query.edit_message_text("Список задач пока пуст.😕", reply_markup=list_menu_markup())
+        else:
+            sorted_tasks = sort_tasks(tasks)
+            save_tasks(sorted_tasks)
+            message = get_task_list(sorted_tasks)
+            await query.edit_message_text(message, reply_markup=list_menu_markup(), parse_mode="Markdown")
 
     elif data.startswith("toggle_"):
         index = int(data.split("_")[1])

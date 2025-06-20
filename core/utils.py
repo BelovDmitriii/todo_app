@@ -4,7 +4,7 @@ def main_menu_markup():
     return InlineKeyboardMarkup([
         [
             InlineKeyboardButton("➕ Добавить задачу", callback_data="add"),
-
+            InlineKeyboardButton("🧹 Очистить задачи", callback_data="clear"),
         ],
         [
             InlineKeyboardButton("📋 Отобразить список задач", callback_data="list"),
@@ -16,6 +16,7 @@ def list_menu_markup():
     return InlineKeyboardMarkup([
         [
             InlineKeyboardButton("➕ Добавить задачу", callback_data="add"),
+            InlineKeyboardButton("🧹 Очистить задачи", callback_data="clear"),
         ],
         [
             InlineKeyboardButton("📋 Действия с задачами", callback_data="listinline"),
