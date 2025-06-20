@@ -29,6 +29,14 @@ def delete_task_by_id(task_id):
         session.commit()
     session.close()
 
+def delete_task_by_index(index: int):
+    session = SessionLocal()
+    tasks = session.query(Task).order_by(Task.id).all()
+    if 0 <= index < len(tasks):
+        session.delete(tasks[index])
+        session.commit()
+    session.close()
+
 def update_task(task_id: int, title: str = None, priority: int = None, done: bool = None):
     session = SessionLocal()
     task = session.query(Task).get(task_id)
@@ -49,3 +57,16 @@ def toggle_task_done(task_id):
         task.done = not task.done
         session.commit()
     session.close()
+
+def clear_all_tasks():
+    session = SessionLocal()
+    session.query(Task).delete()
+    session.commit()
+    session.close()
+
+def sort_tasks_by_status():
+    session = SessionLocal()
+    tasks = session.query(Task).order_by(Task.done.asc()).all()
+    session.close()
+
+    return tasks

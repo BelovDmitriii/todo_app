@@ -1,13 +1,13 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
-from core import load_tasks, save_tasks, get_task_list, sort_tasks
+from core import get_task_list, sort_tasks
 from core.utils import list_menu_markup, main_menu_markup
 from .help import help_command
 from handlers.add import ask_add_task
 from emojis import EMOJIS
 
 async def list_with_inline(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    tasks = load_tasks()
+    tasks = get_tasks()
 
     message_obj = update.message or update.callback_query.message
 
