@@ -6,20 +6,17 @@ from core.utils import short_list_menu_markup
 from core.models import Task
 
 async def edit_task(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if len(context.args) < 2 or not context.args[0].isdigit():
-        await update.message.reply_text("Использование: /edit <номер> <новый текст задачи>")
+    if len(context.args) < 1 or not context.args[0].isdigit():
+        await update.message.reply_text("Использование: /edit <номер>")
         return
 
     index = int(context.args[0]) - 1
-    new_title = " ".join(context.args[1:])
     tasks = get_tasks()
 
     if 0 <= index < len(tasks):
-        old_title = tasks[index]["title"]
-        tasks[index]["title"] = new_title
-        await update.message.reply_text(f"Задача изменена:\n{old_title} → {new_title}")
-        message = get_task_list(tasks)
-        await update.message.reply_text(message)
+        task = tasks[index]
+        context.user_data["edit_id"] = task.id
+        await update.message.reply_text(f"Введите новый текст для задачи #{index + 1}:\n{tasks[index].title}")
     else:
         await update.message.reply_text("Некорректный номер задачи.")
 
