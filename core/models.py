@@ -11,31 +11,30 @@ class Task(Base):
     title = Column(String, nullable=False)
     priority = Column(Integer, default=2)
     done = Column(Boolean, default=False)
+    position = Column(Integer, default=0)
 
     def __repr__ (self):
         return f"<Task(id={self.id}, title='{self.title}', done={self.done})>"
-
-    def __init__(self, title: str, priority: int = 2, done: bool = False):
-        self.title = title
-        self.priority = priority
-        self.done = done
 
     def toggle_status(self):
         self.done = not self.done
 
     def to_dict(self):
         return {
+            "id": self.id,
             "title": self.title,
             "priority": self.priority,
-            "done": self.done
+            "done": self.done,
+            "position": self.position
         }
 
     @classmethod
     def from_dict(cls, data: dict):
         return cls(
             title=data["title"],
-            priority = data.get("priority", 2),
-            done = data.get("done", False)
+            priority=data.get("priority", 2),
+            done=data.get("done", False),
+            position=data.get("position", 0)
         )
 
     def __str__(self):

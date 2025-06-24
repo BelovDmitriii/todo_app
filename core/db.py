@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
 from core.models import Base, Task
 
@@ -10,14 +10,23 @@ def init_db():
 
 def get_tasks():
     session = SessionLocal()
-    task = session.query(Task).all()
+    task = session.query(Task).order_by(Task.position).all()
+    session.close()
+    return task
+
+def get_task_by_id(task_id: int):
+    session = SessionLocal()
+    task = session.query(Task).get(task_id)
     session.close()
     return task
 
 def add_task(title, priority=2, done=False):
     session = SessionLocal()
-    task = Task(title=title, priority=priority, done=done)
-    session.add(task)
+    max_position = session.query(func.max(Task.position)).scalar()
+    if max_position is None:
+        max_position = 0
+    new_task = Task(title=title, priority=priority, done=done, position=max_position + 1)
+    session.add(new_task)
     session.commit()
     session.close()
 
@@ -26,14 +35,6 @@ def delete_task_by_id(task_id):
     task = session.get(Task, task_id)
     if task:
         session.delete(task)
-        session.commit()
-    session.close()
-
-def delete_task_by_index(index: int):
-    session = SessionLocal()
-    tasks = session.query(Task).order_by(Task.id).all()
-    if 0 <= index < len(tasks):
-        session.delete(tasks[index])
         session.commit()
     session.close()
 
@@ -66,12 +67,18 @@ def clear_all_tasks():
 
 def sort_tasks_by_status():
     session = SessionLocal()
-    tasks = session.query(Task).order_by(Task.done.asc()).all()
-    session.close()
-    return tasks
+    tasks = session.query(Task).order_by(Task.done.asc(), Task.position.asc()).all()
+    for index, task in enumerate(tasks):
+        task.position = index
 
-# def get_tasks_sorted():
-#     session = SessionLocal()
-#     tasks = session.query(Task).order_by(Task.done.asc(), Task.priority.desc().all())
-#     session.close()
-#     return tasks
+    session.commit()
+
+    sorted_tasks = session.query(Task).order_by(Task.position.asc()).all()
+
+    detached_tasks = [Task(title=task.title, priority=task.priority, done=task.done) for task in sorted_tasks]
+    for index, task in enumerate(detached_tasks):
+        task.id = sorted_tasks[index].id
+        task.position = sorted_tasks[index].position
+
+    session.close()
+    return detached_tasks

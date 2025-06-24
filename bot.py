@@ -6,6 +6,7 @@ from core.db import init_db
 init_db()
 
 if __name__ == "__main__":
+    print("Бот запустился...")
     app = ApplicationBuilder().token(TOKEN).build()
     register_handlers(app)
     app.run_polling()

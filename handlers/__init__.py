@@ -4,6 +4,7 @@ from .list import list
 from .delete import delete_task
 from .help import help_command
 from .edit import edit_task, handle_edit_reply
+from .text_message import text_message_handler
 from .toggle import toggle_task_status
 from .sort import sort_command
 from .search import search_tasks
@@ -23,7 +24,8 @@ def register_handlers(app):
     app.add_handler(CommandHandler("search", search_tasks))
     app.add_handler(CommandHandler("listinline", list_with_inline))
     app.add_handler(CallbackQueryHandler(inline_callback_handler))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_add_task))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_edit_reply))
+    # app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_add_task))
+    # app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_edit_reply))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, text_message_handler))
 
     app.run_polling()
