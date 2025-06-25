@@ -29,7 +29,7 @@ async def add(update: Update, context: ContextTypes.DEFAULT_TYPE):
     add_task(title=title, priority=priority)
 
     await update.message.reply_text(f"Добавлена задача: {title}{EMOJIS['status']['done']}")
-    message = get_task_list(tasks)
+    message = f"✅ Задача добавлена: {title}"
     await update.message.reply_text(message, reply_markup=main_menu_markup())
 
 async def ask_add_task(update: Update, context: ContextTypes.DEFAULT_TYPE):

@@ -1,6 +1,5 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from core.utils import get_task_list
 from core.db import get_tasks, SessionLocal
 from core.utils import short_list_menu_markup
 from core.models import Task

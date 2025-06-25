@@ -42,7 +42,7 @@ def get_task_list(tasks: list) -> str:
     if not tasks:
         return "У вас пока нет задач ✅"
 
-    message = "📋 *Ваши задачи:*\n\n"
+    message = "📋 Ваши задачи:\n\n"
     for i, task in enumerate(tasks, start=1):
         status = "✅" if task.done else "🔲"
         priority_icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(task.priority, "")
