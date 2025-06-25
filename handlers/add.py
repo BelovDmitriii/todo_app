@@ -1,7 +1,6 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 from core.db import get_tasks, add_task
-from core.utils import get_task_list
 from core.models import Task
 from emojis import EMOJIS
 from core.utils import main_menu_markup, short_list_menu_markup

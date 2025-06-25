@@ -1,7 +1,8 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 from core.utils import get_task_list
-from core.db import get_tasks
+from core.db import get_tasks, toggle_task_done
+from core.utils import short_list_menu_markup
 
 async def toggle_task_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args or not context.args[0].isdigit():
@@ -12,11 +13,15 @@ async def toggle_task_status(update: Update, context: ContextTypes.DEFAULT_TYPE)
     tasks = get_tasks()
 
     if 0 <= index < len(tasks):
-        tasks[index]["done"] = not tasks[index].get("done", False)
-        status = "выполнена" if tasks[index]["done"] else "не выполнена"
+        task = tasks[index]
+        toggle_task_done(task.id)
 
-        await update.message.reply_text(f"Статус задачи изменён: {tasks[index]['title']} — {status}")
-        message = get_task_list(tasks)
-        await update.message.reply_text(message)
+        updated_tasks = get_tasks()
+        new_task = next((t for t in updated_tasks if t.id == task.id), None)
+        status = "выполнена" if new_task and new_task.done else "не выполнена"
+
+        await update.message.reply_text(f"Статус задачи изменён: {task.title} — {status}")
+        message = get_task_list(updated_tasks)
+        await update.message.reply_text(message, reply_markup=short_list_menu_markup())
     else:
         await update.message.reply_text("Некорректный номер задачи.")
