@@ -3,7 +3,7 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
 from sqlalchemy.orm import Session
 from core.db import SessionLocal, get_tasks, clear_all_tasks, sort_tasks_by_status, toggle_task_done, delete_task_by_id, get_task_by_id
-from core.utils import list_menu_markup, main_menu_markup, get_task_list
+from core.utils import list_menu_markup, main_menu_markup, get_task_list, confirm_clear_marcup, short_list_menu_markup
 from .help import help_command
 from handlers.add import ask_add_task
 from emojis import EMOJIS
@@ -61,10 +61,16 @@ async def inline_callback_handler(update: Update, context: ContextTypes.DEFAULT_
         elif data == "clear":
             tasks = get_tasks()
             if tasks:
-                clear_all_tasks()
-                await query.edit_message_text("🧹 Все задачи успешно удалены.", reply_markup=list_menu_markup())
+                await query.edit_message_text("Вы уверены, что хотите удалить все задачи?", reply_markup=confirm_clear_marcup())
             else:
-                await query.edit_message_text("Список задач уже пуст.😕", reply_markup=list_menu_markup())
+                await query.edit_message_text("Список задач уже пуст.😕", reply_markup=short_list_menu_markup())
+
+        elif data == "confirm_clear":
+            clear_all_tasks()
+            await query.edit_message_text("🧹 Все задачи успешно удалены.", reply_markup=short_list_menu_markup())
+
+        elif data == "cancel_clear":
+            await query.edit_message_text("😅 Очистка отменена.", reply_markup=short_list_menu_markup())
 
         elif data == "sort":
             sorted_tasks = sort_tasks_by_status()

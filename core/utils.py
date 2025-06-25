@@ -49,3 +49,11 @@ def get_task_list(tasks: list) -> str:
         message += f"{i}. {status} {priority_icon} {task.title}\n\n"
 
     return message
+
+def confirm_clear_marcup():
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("✅ Да", callback_data="confirm_clear"),
+            InlineKeyboardButton("❌ Нет", callback_data="cancel_clear"),
+        ]
+    ])

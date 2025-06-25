@@ -14,6 +14,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "/sort — отсортировать задачи по приоритету и статусу\n"
         "/search <ключевое слово> — найти задачи по тексту\n"
         "/listinline - выводит задачи с инлайн-кнопками\n"
+        "/clear - удалить все задачи\n"
     )
     msg = update.message or update.callback_query.message
     await msg.reply_text(help_text, parse_mode="Markdown")
