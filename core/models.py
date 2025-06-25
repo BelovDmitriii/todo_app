@@ -41,6 +41,3 @@ class Task(Base):
         status = "✅" if self.done else "🔲"
         icon = {3: "🔥", 2: "⚠️", 1: "📝"}.get(self.priority, "")
         return f"{status} {icon} {self.title}"
-
-    def __repr__(self):
-        return f"<Task id={self.id} title='{self.title}' priority={self.priority} status={self.status}>"
